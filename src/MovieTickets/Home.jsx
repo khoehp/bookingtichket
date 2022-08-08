@@ -12,12 +12,10 @@ export class Home extends Component {
                 <div className={styles.overlay}></div>
                 <h1 style={{ color: "yellow" }}>Đặt vé xem phim Cyber.vn</h1>
                 <div className='d-flex'>
-                    <div className='col-8' >
+                    <div className='col-7 mx-5' >
                         <div className={styles.screen}></div>
 
-                        {this.props.Seat?.map((item) => {
-                            return <SeatList />
-                        })}
+                        <SeatList />
                         <button className='btn btn-success'>submit</button>
 
                     </div>
@@ -34,7 +32,7 @@ export class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        Seat: state.seat.seatList
+        Home: state.seat.seatList
     }
 }
 

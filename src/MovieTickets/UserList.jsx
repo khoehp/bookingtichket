@@ -1,7 +1,25 @@
 import React, { Component } from 'react'
 import styles from "./seatList.module.css"
-
+import { connect } from "react-redux"
 export class UserList extends Component {
+
+
+  handlelSubmit = () => {
+    this.props.selected.map((item) => {
+      return (
+        item.daDat = true
+      )
+    })
+  }
+
+  handleDelete = (seat) => {
+    this.props.dispatch(addSeat(seat));
+  }
+
+  sumTotal = () => {
+    console.log(this.props.selected);
+  }
+
   render() {
     return (
       <div>
@@ -27,14 +45,28 @@ export class UserList extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>A</td>
-              <td>7000</td>
-              <td>X</td>
-            </tr>
+            {this.props.selected?.map((item) => {
+              return (
+                <tr key={item.soGhe}>
+                  <td>{item.soGhe}</td>
+                  <td>{item.gia}</td>
+                  <td>
+                    <button onClick={() => this.handleDelete(item)}>
+                      X
+                    </button>
+                  </td>
+                </tr>
+              )
+            })}
             <tr>
               <td>Tổng tiền</td>
-              <td></td>
+              <td>
+                {this.props.selected.reduce((total, item, index) => {
+                  return (
+                    total += item.gia
+                  )
+                }, 0)}
+              </td>
               <td></td>
             </tr>
           </tbody>
@@ -44,4 +76,17 @@ export class UserList extends Component {
   }
 }
 
-export default UserList
+const addSeat = (value) => {
+  return {
+    type: "ADD_SEAT",
+    payload: value,
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    selected: state.select.selected,
+  }
+}
+
+export default connect(mapStateToProps)(UserList)
